@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist/node",
+		"allowJs": true,
+		"target": "es5",
+		"lib": [ "es2015" ],
+		"types": [ "node" ],
+		"sourceMap": true
+	},
+	"include": [
+		"./lib/**/*"
+	]
+}
