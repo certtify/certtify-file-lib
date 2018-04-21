@@ -47,8 +47,31 @@ class PDF {
      * @return {string} Base64 encoded SHA512 hash
      */
     public getFileHash() : string {
+        // Trim any Certtify header before hashing
         let noHeaderPDF = this.trimCerttifyHeader();
+        // Hash the binary content
         return this.calculateHash(noHeaderPDF);
+    }
+
+    /**
+     * Extract the Certtify header inside the PDF
+     * @return {string} Certtify header inside the PDF, or null if no header is found
+     */
+    public getCerttifyHeader(): string {
+        // Look for location of Certtify header in the file
+        let headerPos = this.pdf.indexOf(this.certtifyHeader);
+        if (headerPos != -1) {
+            // Certtify header found
+            let endingPos = this.pdf.indexOf(this.terminator, headerPos);
+            // Extract Certtify header from headerPos + header_length to endingPos <0D>
+            let header = this.pdf.slice(headerPos + this.certtifyHeader.length, endingPos);
+            // Return the header
+            return header.toString('utf8');
+        }
+        else {
+            // No Certtify header found
+            return null;
+        }
     }
 
     /**
