@@ -57,7 +57,7 @@ class PDF {
      * Extract the Certtify header inside the PDF
      * @return {string} Certtify header inside the PDF, or null if no header is found
      */
-    public getCerttifyHeader(): string {
+    public getCerttifyHeader() : string {
         // Look for location of Certtify header in the file
         let headerPos = this.pdf.indexOf(this.certtifyHeader);
         if (headerPos != -1) {
@@ -72,6 +72,21 @@ class PDF {
             // No Certtify header found
             return null;
         }
+    }
+
+    /**
+     * Write the header to this PDF file
+     * @param {string} header Header to be written to the PDF
+     * @return {Buffer} Binary content of the new PDF file
+     */
+    public writeCerttifyHeader(header: string) : Buffer {
+        // Trim any Certtify header before hashing
+        let noHeaderPDF = this.trimCerttifyHeader();
+        // Compute header
+        let headerBuf = Buffer.concat([this.initiator, this.certtifyHeader, Buffer.from(header, 'utf8'), this.terminator]);
+        // Return the combined buffer
+        let combinedPDF = Buffer.concat([headerBuf, noHeaderPDF]);
+        return combinedPDF;
     }
 
     /**
