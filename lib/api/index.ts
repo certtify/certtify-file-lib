@@ -1,3 +1,8 @@
-import readPDFTag from './read';
+/**
+ * @module API
+ */ /** */
 
-export { readPDFTag };
+import readTag from './read';
+import hashPDF from './hash';
+
+export { readTag, hashPDF };
