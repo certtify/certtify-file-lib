@@ -1,9 +1,22 @@
 var onFileLoaded = function(event) {
     // Get file content
     var content = event.target.result;
-    // Call CerttifyFileBundle function
-    CerttifyFileBundle.readPDFTag(content);
+    // Get the file hash of the PDF
+    var hash = CerttifyFileBundle.hashPDF(content);
+    // Get the Certtify header from the PDF
+    var header = CerttifyFileBundle.readTag(content);
+    // Update the read.html
+    document.getElementById("hash").innerText = hash;
+    if (header) {
+        // Header found
+        document.getElementById("header").innerText = header;
+    }
+    else {
+        // Header not found
+        document.getElementById("header").innerText = "NOT FOUND";
+    }
 }
+    
 
 var submitFile = function(event) {
     // Prevent further propagation
